@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useApp } from "../context/AppContext";
+import QRCode from "react-qr-code";
 import {
   FaSearch,
   FaEdit,
@@ -17,6 +18,9 @@ import {
   FaPhone,
   FaIdCard,
   FaExclamationTriangle,
+  FaQrcode,
+  FaDownload,
+  FaPrint,
 } from "react-icons/fa";
 
 const PublicTrackingPage = () => {
@@ -80,6 +84,7 @@ const PublicTrackingPage = () => {
         const transformedData = {
           id: request.id,
           documentType: request.documentType,
+          documentDescription: request.documentDescription,
           applicantName: request.fullName,
           email: request.email,
           phone: request.phone,
@@ -170,6 +175,242 @@ const PublicTrackingPage = () => {
       default:
         return "bg-gray-100 text-gray-700";
     }
+  };
+
+  const getCurrentStepTitle = () => {
+    if (!trackingData) return "Application Submitted";
+    const currentStep = steps.find(
+      (step) => step.id === trackingData.currentStep
+    );
+    return currentStep ? currentStep.title : "Application Submitted";
+  };
+
+  const generateQRData = () => {
+    if (!trackingData) return "";
+    return JSON.stringify({
+      id: trackingData.id,
+      name: trackingData.fullName,
+      email: trackingData.email,
+      phone: trackingData.phone,
+      documentType: trackingData.documentType,
+      description: trackingData.documentDescription,
+      submittedAt: trackingData.submittedAt,
+    });
+  };
+
+  const handleDownloadQR = () => {
+    const svg = document.querySelector("#public-tracking-qr-code svg");
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    canvas.width = 256;
+    canvas.height = 256;
+
+    img.onload = function () {
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+
+      const pngFile = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.download = `${trackingData.id}-qrcode.png`;
+      downloadLink.href = pngFile;
+      downloadLink.click();
+    };
+
+    img.src = "data:image/svg+xml;base64," + btoa(svgData);
+  };
+
+  const handleDownloadPrintable = async () => {
+    if (!trackingData) return;
+
+    // Get QR code as base64
+    const svg = document.querySelector("#public-tracking-qr-code svg");
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const qrCanvas = document.createElement("canvas");
+    const qrCtx = qrCanvas.getContext("2d");
+
+    qrCanvas.width = 120;
+    qrCanvas.height = 120;
+
+    return new Promise((resolve) => {
+      const qrImg = new Image();
+      qrImg.onload = function () {
+        qrCtx.fillStyle = "white";
+        qrCtx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+        qrCtx.drawImage(qrImg, 0, 0, 120, 120);
+
+        // Create main canvas for the printable document (A4 half size)
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        // Half A4 size at 150 DPI for good print quality
+        canvas.width = 620; // ~4.1 inches at 150 DPI
+        canvas.height = 400; // ~2.7 inches at 150 DPI (half page)
+
+        // Fill background
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw border
+        ctx.strokeStyle = "#3B82F6";
+        ctx.lineWidth = 3;
+        ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+
+        // Title section
+        ctx.fillStyle = "#1F2937";
+        ctx.font = "bold 18px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("Munger District Administration", canvas.width / 2, 35);
+
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "#6B7280";
+        ctx.fillText("Government of Bihar", canvas.width / 2, 50);
+
+        ctx.font = "bold 16px Arial";
+        ctx.fillStyle = "#3B82F6";
+        ctx.fillText("Application Tracking Report", canvas.width / 2, 75);
+
+        // Application ID
+        ctx.font = "bold 14px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(`ID: ${trackingData.id}`, canvas.width / 2, 95);
+
+        // Current status
+        ctx.font = "bold 12px Arial";
+        ctx.fillStyle = "#10B981";
+        ctx.fillText(`Status: ${getCurrentStepTitle()}`, canvas.width / 2, 110);
+
+        // Main content area - two columns
+        const leftX = 25;
+        const rightX = 350;
+        let currentY = 135;
+
+        // Left column - Application details
+        ctx.textAlign = "left";
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+
+        ctx.fillText("Document Type:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(trackingData.documentType, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Description:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(
+          trackingData.documentDescription || "Not provided",
+          leftX + 85,
+          currentY
+        );
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Applicant:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(trackingData.fullName, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Email:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(trackingData.email, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Phone:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(
+          trackingData.phone || "Not provided",
+          leftX + 85,
+          currentY
+        );
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Department:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(trackingData.department, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Submitted:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(trackingData.submittedAt, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Est. Time:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(trackingData.estimatedTime, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Fees:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(`₹${trackingData.fees}`, leftX + 85, currentY);
+
+        // Right column - QR code and instructions
+        ctx.textAlign = "center";
+        ctx.font = "bold 12px Arial";
+        ctx.fillStyle = "#3B82F6";
+        ctx.fillText("QR Code", rightX + 120, 150);
+
+        // Draw QR code
+        ctx.drawImage(qrCanvas, rightX + 60, 160, 120, 120);
+
+        ctx.font = "10px Arial";
+        ctx.fillStyle = "#6B7280";
+        ctx.fillText("Scan for quick access", rightX + 120, 295);
+        ctx.fillText("to track status", rightX + 120, 310);
+
+        // Footer
+        ctx.textAlign = "center";
+        ctx.font = "10px Arial";
+        ctx.fillStyle = "#6B7280";
+        const footerY = canvas.height - 30;
+        ctx.fillText(
+          `Generated: ${new Date().toLocaleDateString("en-IN")}`,
+          canvas.width / 2,
+          footerY
+        );
+        ctx.fillText(
+          "Munger Document Store - Government of Bihar",
+          canvas.width / 2,
+          footerY + 12
+        );
+
+        // Download the PNG
+        const pngDataUrl = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.download = `${trackingData.id}-tracking-slip.png`;
+        downloadLink.href = pngDataUrl;
+        downloadLink.click();
+
+        resolve();
+      };
+      qrImg.src = "data:image/svg+xml;base64," + btoa(svgData);
+    });
   };
 
   return (
@@ -324,6 +565,23 @@ const PublicTrackingPage = () => {
                 </div>
               </div>
 
+              {/* Document Description - Full Width */}
+              {trackingData.documentDescription && (
+                <div className="mt-6 p-4 bg-gray-50 rounded-xl">
+                  <div className="flex items-start gap-3">
+                    <FaEdit className="text-gray-400 mt-1" />
+                    <div>
+                      <p className="text-sm text-gray-600 mb-1">
+                        Document Description
+                      </p>
+                      <p className="font-medium text-gray-900">
+                        {trackingData.documentDescription}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {trackingData.remarks && (
                 <div className="mt-6 p-4 bg-blue-50 rounded-xl">
                   <p className="text-sm text-blue-700">
@@ -402,6 +660,70 @@ const PublicTrackingPage = () => {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+
+            {/* QR Code Section */}
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <FaQrcode className="text-blue-600" />
+                Quick Access QR Code
+              </h3>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                {/* QR Code */}
+                <div className="text-center">
+                  <div className="inline-block p-4 bg-white border-2 border-gray-200 rounded-xl">
+                    <div id="public-tracking-qr-code">
+                      <QRCode
+                        value={generateQRData()}
+                        size={200}
+                        style={{
+                          height: "auto",
+                          maxWidth: "100%",
+                          width: "100%",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-4">
+                    Scan this QR code to quickly access your application details
+                    from any device
+                  </p>
+                </div>
+
+                {/* QR Code Actions */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-gray-900">
+                    Download Options
+                  </h4>
+
+                  <div className="space-y-3">
+                    <button
+                      onClick={handleDownloadQR}
+                      className="w-full bg-blue-100 text-blue-700 px-4 py-3 rounded-xl font-medium hover:bg-blue-200 transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                      <FaDownload className="text-sm" />
+                      Download QR Code
+                    </button>
+
+                    <button
+                      onClick={handleDownloadPrintable}
+                      className="w-full bg-green-100 text-green-700 px-4 py-3 rounded-xl font-medium hover:bg-green-200 transition-all duration-200 flex items-center justify-center gap-2"
+                    >
+                      <FaPrint className="text-sm" />
+                      Print Tracking Slip
+                    </button>
+                  </div>
+
+                  <div className="p-4 bg-gray-50 rounded-xl">
+                    <p className="text-sm text-gray-600">
+                      <strong>QR Code contains:</strong> Application ID,
+                      Applicant name, Email, Phone, Document type, Document
+                      description, and Submission date
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 

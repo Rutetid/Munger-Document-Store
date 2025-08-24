@@ -13,18 +13,20 @@ import {
   FaQrcode,
   FaArrowRight,
   FaPrint,
+  FaEdit,
 } from "react-icons/fa";
 
 const RequestConfirmation = ({ request }) => {
   const [showQR, setShowQR] = useState(false);
 
-  // QR Code data containing ID, name, email, phone, and document type
+  // QR Code data containing ID, name, email, phone, document type, and description
   const qrData = JSON.stringify({
     id: request.id,
     name: request.fullName,
     email: request.email,
     phone: request.phone,
     documentType: request.documentType,
+    description: request.documentDescription,
     submittedAt: request.submittedAt,
   });
 
@@ -120,6 +122,18 @@ const RequestConfirmation = ({ request }) => {
         ctx.font = "11px Arial";
         ctx.fillStyle = "#1F2937";
         ctx.fillText(request.documentType, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Description:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(
+          request.documentDescription || "Not provided",
+          leftX + 85,
+          currentY
+        );
 
         currentY += 20;
         ctx.font = "bold 11px Arial";
@@ -270,6 +284,19 @@ const RequestConfirmation = ({ request }) => {
                     <p className="text-sm text-gray-600">Document Type</p>
                     <p className="font-semibold text-gray-900">
                       {request.documentType}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Document Description */}
+                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                  <FaEdit className="text-gray-600 text-lg" />
+                  <div>
+                    <p className="text-sm text-gray-600">
+                      Document Description
+                    </p>
+                    <p className="font-semibold text-gray-900">
+                      {request.documentDescription || "Not provided"}
                     </p>
                   </div>
                 </div>

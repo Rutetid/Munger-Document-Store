@@ -222,6 +222,11 @@ const Dashboard = ({ requests, onRequestClick }) => {
                         {getStatusText(request.currentStep)}
                       </span>
                     </div>
+                    {request.documentDescription && (
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                        {request.documentDescription}
+                      </p>
+                    )}
                     <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 text-sm text-gray-500">
                       <span>
                         ID: <span className="font-medium">{request.id}</span>

@@ -88,6 +88,7 @@ const RequestTracker = ({ request, onStatusUpdate }) => {
     email: request.email,
     phone: request.phone,
     documentType: request.documentType,
+    description: request.documentDescription,
     submittedAt: request.submittedAt,
   });
 
@@ -188,6 +189,18 @@ const RequestTracker = ({ request, onStatusUpdate }) => {
         ctx.font = "11px Arial";
         ctx.fillStyle = "#1F2937";
         ctx.fillText(request.documentType, leftX + 85, currentY);
+
+        currentY += 20;
+        ctx.font = "bold 11px Arial";
+        ctx.fillStyle = "#4B5563";
+        ctx.fillText("Description:", leftX, currentY);
+        ctx.font = "11px Arial";
+        ctx.fillStyle = "#1F2937";
+        ctx.fillText(
+          request.documentDescription || "Not provided",
+          leftX + 85,
+          currentY
+        );
 
         currentY += 20;
         ctx.font = "bold 11px Arial";
@@ -558,6 +571,14 @@ const RequestTracker = ({ request, onStatusUpdate }) => {
                 {request.documentType}
               </span>
             </div>
+            <div>
+              <span className="text-sm text-gray-500 block mb-1">
+                Document Description
+              </span>
+              <span className="font-medium text-gray-900">
+                {request.documentDescription || "Not provided"}
+              </span>
+            </div>
           </div>
           <div className="space-y-4">
             <div>
@@ -600,7 +621,7 @@ const RequestTracker = ({ request, onStatusUpdate }) => {
             <p className="text-gray-600 mb-6">
               Use this QR code to quickly share or access your application
               details. The QR code contains your application ID, name, email,
-              phone number, and document type.
+              phone number, document type, and document description.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
