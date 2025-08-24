@@ -1,28 +1,35 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  FaArrowLeft,
+  FaFileAlt,
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaClock,
+  FaInfoCircle,
+} from "react-icons/fa";
 
 const DocumentRequestForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
-    address: "",
     documentType: "",
-    purpose: "",
-    urgency: "normal",
-    additionalNotes: "",
   });
 
   const documentTypes = [
-    "Birth Certificate",
-    "Death Certificate",
-    "Marriage Certificate",
-    "Property Registration",
-    "Trade License",
-    "Building Permit",
-    "Tax Certificate",
-    "Caste Certificate",
-    "Income Certificate",
-    "Domicile Certificate",
+    { value: "Birth Certificate", fee: "₹50", time: "7-10 days" },
+    { value: "Death Certificate", fee: "₹50", time: "5-7 days" },
+    { value: "Marriage Certificate", fee: "₹100", time: "10-15 days" },
+    { value: "Property Registration", fee: "₹500", time: "15-20 days" },
+    { value: "Trade License", fee: "₹200", time: "10-12 days" },
+    { value: "Building Permit", fee: "₹300", time: "20-25 days" },
+    { value: "Tax Certificate", fee: "₹75", time: "5-7 days" },
+    { value: "Caste Certificate", fee: "₹30", time: "7-10 days" },
+    { value: "Income Certificate", fee: "₹40", time: "7-10 days" },
+    { value: "Domicile Certificate", fee: "₹50", time: "10-12 days" },
   ];
 
   const handleInputChange = (e) => {
@@ -42,101 +49,189 @@ const DocumentRequestForm = ({ onSubmit }) => {
     onSubmit(formData);
   };
 
+  const selectedDocType = documentTypes.find(
+    (doc) => doc.value === formData.documentType
+  );
+
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        Document Request Form
-      </h2>
+    <div className="max-w-4xl mx-auto px-6 py-12">
+      {/* Header */}
+      <div className="mb-12">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 font-medium transition-colors"
+        >
+          <FaArrowLeft className="text-sm" />
+          Back to Home
+        </Link>
+        <br />
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Personal Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Full Name *
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-4">
+          <FaFileAlt className="mr-2 text-xs" />
+          Document Request
+        </div>
+        <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+          Request Document
+        </h1>
+        <p className="text-lg text-gray-600">
+          Fill out the form below to request your government document
+        </p>
+      </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address *
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Form */}
+        <div className="lg:col-span-2">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Personal Information Section */}
+            <div className="bg-white border border-gray-200 rounded-2xl p-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                <FaUser className="text-gray-400" />
+                Personal Information
+              </h2>
+
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200"
+                      placeholder="Enter your full name"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200"
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Document Information Section */}
+            <div className="bg-white border border-gray-200 rounded-2xl p-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+                <FaFileAlt className="text-gray-400" />
+                Document Information
+              </h2>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Document Type *
+                  </label>
+                  <select
+                    name="documentType"
+                    value={formData.documentType}
+                    onChange={handleInputChange}
+                    className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200"
+                    required
+                  >
+                    <option value="">Select Document Type</option>
+                    {documentTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.value} - {type.fee} ({type.time})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="bg-gray-900 text-white px-8 py-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-200 flex items-center gap-2"
+              >
+                <FaFileAlt className="text-sm" />
+                Submit Request
+              </button>
+            </div>
+          </form>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
+        {/* Sidebar */}
+        <div className="lg:col-span-1">
+          <div className="sticky top-8 space-y-6">
+            {/* Document Preview */}
+            {selectedDocType && (
+              <div className="bg-white border border-gray-200 rounded-2xl p-6">
+                <h3 className="font-semibold text-gray-900 mb-4">
+                  Document Details
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Document:</span>
+                    <span className="font-medium">{selectedDocType.value}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Fee:</span>
+                    <span className="font-medium">{selectedDocType.fee}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Processing Time:</span>
+                    <span className="font-medium">{selectedDocType.time}</span>
+                  </div>
+                </div>
+              </div>
+            )}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Document Type *
-            </label>
-            <select
-              name="documentType"
-              value={formData.documentType}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              required
-            >
-              <option value="">Select Document Type</option>
-              {documentTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
+            {/* Help Card */}
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <FaInfoCircle className="text-gray-400" />
+                <h3 className="font-semibold text-gray-900">Need Help?</h3>
+              </div>
+              <p className="text-gray-600 text-sm mb-4">
+                If you need assistance with your document request, our support
+                team is here to help.
+              </p>
+              <div className="space-y-2 text-sm text-gray-600">
+                <p>
+                  <strong>Phone:</strong> +91-XXXXXXXXXX
+                </p>
+                <p>
+                  <strong>Email:</strong> support@mungerdocstore.gov.in
+                </p>
+                <p>
+                  <strong>Hours:</strong> 9 AM - 6 PM (Mon-Fri)
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Complete Address
-          </label>
-          <textarea
-            name="address"
-            value={formData.address}
-            onChange={handleInputChange}
-            rows="3"
-            className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div> */}
-
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            className="px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Submit Request
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };

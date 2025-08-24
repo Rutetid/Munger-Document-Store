@@ -11,7 +11,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-white">
       <Dashboard requests={requests} onRequestClick={handleRequestClick} />
     </div>
   );

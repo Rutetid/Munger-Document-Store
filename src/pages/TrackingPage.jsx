@@ -13,7 +13,7 @@ const TrackingPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-white">
       <RequestTracker request={request} onStatusUpdate={updateRequestStatus} />
     </div>
   );
