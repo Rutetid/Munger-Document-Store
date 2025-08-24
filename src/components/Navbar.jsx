@@ -22,7 +22,8 @@ const Navbar = () => {
 
   const navigation = [
     { name: "Home", href: "/", icon: FaHome },
-    { name: "Dashboard", href: "/dashboard", icon: FaTachometerAlt },
+    { name: "Tracking", href: "/tracking", icon: FaSearch },
+    // { name: "Dashboard", href: "/dashboard", icon: FaTachometerAlt },
   ];
 
   return (

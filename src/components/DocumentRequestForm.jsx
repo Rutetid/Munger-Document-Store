@@ -17,6 +17,8 @@ const DocumentRequestForm = ({ onSubmit }) => {
     email: "",
     phone: "",
     documentType: "",
+    customDocumentType: "",
+    documentDescription: "",
   });
 
   const documentTypes = [
@@ -30,6 +32,7 @@ const DocumentRequestForm = ({ onSubmit }) => {
     { value: "Caste Certificate", fee: "₹30", time: "7-10 days" },
     { value: "Income Certificate", fee: "₹40", time: "7-10 days" },
     { value: "Domicile Certificate", fee: "₹50", time: "10-12 days" },
+    { value: "Other", fee: "Varies", time: "Varies" },
   ];
 
   const handleInputChange = (e) => {
@@ -46,6 +49,14 @@ const DocumentRequestForm = ({ onSubmit }) => {
       alert("Please fill in all required fields");
       return;
     }
+    if (formData.documentType === "Other" && !formData.customDocumentType) {
+      alert("Please specify the custom document type");
+      return;
+    }
+    if (!formData.documentDescription) {
+      alert("Please provide a description of the document");
+      return;
+    }
     onSubmit(formData);
   };
 
@@ -54,7 +65,7 @@ const DocumentRequestForm = ({ onSubmit }) => {
   );
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12">
+    <div className="max-w-5xl mx-auto px-6 py-12">
       {/* Header */}
       <div className="mb-12">
         <Link
@@ -165,6 +176,45 @@ const DocumentRequestForm = ({ onSubmit }) => {
                     ))}
                   </select>
                 </div>
+
+                {/* Custom Document Type Input - Shows when "Other" is selected */}
+                {formData.documentType === "Other" && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Specify Document Type *
+                    </label>
+                    <input
+                      type="text"
+                      name="customDocumentType"
+                      value={formData.customDocumentType}
+                      onChange={handleInputChange}
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200"
+                      placeholder="e.g., Character Certificate, No Objection Certificate"
+                      required
+                    />
+                  </div>
+                )}
+
+                {/* Document Description */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Document Description *
+                  </label>
+                  <textarea
+                    name="documentDescription"
+                    value={formData.documentDescription}
+                    onChange={handleInputChange}
+                    rows={4}
+                    className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-all duration-200 resize-none"
+                    placeholder="e.g., Death certificate for Mr. Ram Kumar, son of Shyam Kumar, who passed away on 15th January 2024 at Munger District Hospital. Required for insurance claim settlement."
+                    required
+                  />
+                  <p className="text-sm text-gray-500 mt-2">
+                    Please provide detailed information about the document you
+                    need, including names, dates, purposes, and any specific
+                    requirements.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -193,7 +243,12 @@ const DocumentRequestForm = ({ onSubmit }) => {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Document:</span>
-                    <span className="font-medium">{selectedDocType.value}</span>
+                    <span className="font-medium">
+                      {formData.documentType === "Other" &&
+                      formData.customDocumentType
+                        ? formData.customDocumentType
+                        : selectedDocType.value}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Fee:</span>
@@ -203,6 +258,16 @@ const DocumentRequestForm = ({ onSubmit }) => {
                     <span className="text-gray-600">Processing Time:</span>
                     <span className="font-medium">{selectedDocType.time}</span>
                   </div>
+                  {formData.documentDescription && (
+                    <div className="pt-3 border-t border-gray-100">
+                      <span className="text-gray-600 block mb-2">
+                        Description:
+                      </span>
+                      <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
+                        {formData.documentDescription}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

@@ -73,31 +73,29 @@ const HomePage = () => {
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute inset-0 bg-gray-900"></div>
+        <div className="absolute inset-0 bg-gray-50"></div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-32">
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium mb-6">
               <FaShieldAlt className="mr-2" />
               Munger District Administration
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold mb-6 text-white leading-tight">
+            <h1 className="text-5xl lg:text-7xl font-bold mb-6 text-gray-900 leading-tight">
               <span className="block">Munger</span>
-              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                Abhilekh Seva
-              </span>
+              <span className="block text-blue-600">Abhilekh Seva</span>
             </h1>
 
-            <p className="text-xl lg:text-2xl mb-10 text-white/90 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl lg:text-2xl mb-10 text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Streamline your government document requests with our modern,
               secure platform.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                to="/request"
-                className="group bg-white text-blue-600 px-8 py-4 text-lg font-semibold rounded-2xl hover:bg-gray-50 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center"
+                to="/tracking"
+                className="group bg-blue-600 text-white px-8 py-4 text-lg font-semibold rounded-2xl hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center"
               >
                 Track Status
                 <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
@@ -105,10 +103,6 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-white/20 rounded-full blur-2xl animate-pulse"></div>
       </div>
 
       {/* Features Section */}
