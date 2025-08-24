@@ -17,20 +17,20 @@ const RequestTracker = ({ request, onStatusUpdate }) => {
   const steps = [
     {
       id: 1,
-      title: "Form Submitted",
+      title: "Application Submitted",
       description: "Your document request has been submitted successfully",
       icon: FaEdit,
     },
     {
       id: 2,
-      title: "Department Processing",
-      description: "Request forwarded to relevant department for processing",
+      title: "Requested from concerned department",
+      description: "Application forwarded to relevant department for processing",
       icon: FaBuilding,
     },
     {
       id: 3,
-      title: "Document Prepared",
-      description: "Document has been prepared and verified",
+      title: "Document Received",
+      description: "Document has been received from concerned department",
       icon: FaFileAlt,
     },
     {

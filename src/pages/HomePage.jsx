@@ -69,53 +69,38 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-500 via-slate-800 to-gray-600"></div>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            opacity: 0.4,
-          }}
-        ></div>
+        <div className="absolute inset-0 bg-gray-900"></div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-20 lg:py-32">
           <div className="text-center">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium mb-6">
               <FaShieldAlt className="mr-2" />
-              Government Verified Platform
+              Munger District Administration
             </div>
 
             <h1 className="text-5xl lg:text-7xl font-bold mb-6 text-white leading-tight">
               <span className="block">Munger</span>
               <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                Document Store
+                Abhilekh Seva
               </span>
             </h1>
 
             <p className="text-xl lg:text-2xl mb-10 text-white/90 max-w-3xl mx-auto leading-relaxed">
               Streamline your government document requests with our modern,
-              secure platform. No queues, no hassles.
+              secure platform.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 to="/request"
-                className="group bg-white text-indigo-600 px-8 py-4 text-lg font-semibold rounded-2xl hover:bg-gray-50 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center"
-              >
-                Request Document
-                <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
-              </Link>
-
-              <Link
-                to="/tracking"
-                className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 text-lg font-semibold rounded-2xl hover:bg-white/20 transition-all duration-300 flex items-center"
+                className="group bg-white text-blue-600 px-8 py-4 text-lg font-semibold rounded-2xl hover:bg-gray-50 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center"
               >
                 Track Status
-                <FaUserCheck className="ml-2" />
+                <FaArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
@@ -129,13 +114,13 @@ const HomePage = () => {
       {/* Features Section */}
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-100 text-indigo-600 text-sm font-medium mb-6">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-600 text-sm font-medium mb-6">
             <FaClock className="mr-2" />
             How It Works
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             Simple Process,
-            <span className="text-indigo-600"> Amazing Results</span>
+            <span className="text-blue-600"> Amazing Results</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Get your government documents in just 5 easy steps with our
@@ -145,53 +130,54 @@ const HomePage = () => {
 
         <div className="relative">
           {/* Connection Line */}
-          <div className="hidden lg:block absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-indigo-200 to-transparent"></div>
+          <div className="hidden lg:block absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             {[
               {
                 step: 1,
-                title: "Submit Form",
+                title: "Submit Application",
                 description:
-                  "Fill out the document request form with required details",
+                  "Fill out the document request Application with required details",
                 icon: FaEdit,
-                color: "from-pink-500 to-rose-500",
+                color: "bg-green-300",
               },
               {
                 step: 2,
-                title: "Department Processing",
+                title: "Forwarded to Department",
                 description:
-                  "Your request is forwarded to the relevant department",
+                  "Your application is forwarded to the relevant department",
                 icon: FaBuilding,
-                color: "from-purple-500 to-indigo-500",
+                color: "bg-green-400",
               },
               {
                 step: 3,
-                title: "Document Preparation",
-                description: "Document is prepared and verified by authorities",
+                title: "Document Received",
+                description:
+                  "Document has been received from concerned department",
                 icon: FaFileAlt,
-                color: "from-blue-500 to-cyan-500",
+                color: "bg-green-500",
               },
               {
                 step: 4,
                 title: "Payment",
-                description: "Complete secure online payment for document fees",
+                description: "Complete secure online payment of nominal fee",
                 icon: FaCreditCard,
-                color: "from-green-500 to-emerald-500",
+                color: "bg-green-600",
               },
               {
                 step: 5,
                 title: "Collection",
                 description: "Collect your document or get it delivered",
                 icon: FaCheckCircle,
-                color: "from-yellow-500 to-orange-500",
+                color: "bg-green-700",
               },
             ].map((item, index) => (
               <div key={item.step} className="relative text-center group">
                 {/* Step Number */}
                 <div className="relative mb-6">
                   <div
-                    className={`w-16 h-16 bg-gradient-to-r ${item.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transform group-hover:scale-110 transition-all duration-300`}
+                    className={`w-16 h-16 ${item.color} rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transform group-hover:scale-110 transition-all duration-300`}
                   >
                     <item.icon className="text-white text-xl" />
                   </div>
@@ -200,15 +186,15 @@ const HomePage = () => {
                   </div>
                 </div>
 
-                <h3 className="font-bold text-gray-900 mb-3 text-lg">
+                <h3 className="font-bold text-gray-900 mb-3 text-lg whitespace-nowrap">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-gray-600 text-sm leading-relaxed ">
                   {item.description}
                 </p>
 
                 {index < 4 && (
-                  <div className="hidden lg:block absolute top-6 -right-4 text-indigo-300">
+                  <div className="hidden lg:block absolute top-6 -right-4 text-blue-300">
                     <FaArrowRight />
                   </div>
                 )}
@@ -220,13 +206,13 @@ const HomePage = () => {
         {/* Available Documents */}
         <div className="mb-20 mt-20">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-purple-100 text-purple-600 text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-600 text-sm font-medium mb-6">
               <FaFileAlt className="mr-2" />
               Available Documents
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
               Choose Your
-              <span className="text-purple-600"> Document Type</span>
+              <span className="text-blue-600"> Document Type</span>
             </h2>
           </div>
 
@@ -234,21 +220,21 @@ const HomePage = () => {
             {documentTypes.map((doc, index) => (
               <div
                 key={doc.name}
-                className="group relative bg-white/70 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-purple-200 transform hover:-translate-y-2"
+                className="group relative bg-white/70 backdrop-blur-sm p-6 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-blue-200 transform hover:-translate-y-2"
                 style={{
                   animationDelay: `${index * 100}ms`,
                 }}
               >
                 {/* Gradient Border Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-500 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
 
                 <div className="relative">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-2xl group-hover:from-purple-200 group-hover:to-indigo-200 transition-all duration-300">
-                      <doc.icon className="text-2xl text-purple-600" />
+                    <div className="p-3 bg-gradient-to-r from-blue-100 to-blue-100 rounded-2xl group-hover:from-blue-200 group-hover:to-blue-200 transition-all duration-300">
+                      <doc.icon className="text-2xl text-blue-600" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-gray-900 mb-2 text-lg group-hover:text-purple-700 transition-colors">
+                      <h3 className="font-bold text-gray-900 mb-2 text-lg group-hover:text-blue-700 transition-colors">
                         {doc.name}
                       </h3>
                       <p className="text-gray-600 text-sm mb-4 leading-relaxed">
@@ -271,7 +257,7 @@ const HomePage = () => {
                           </div>
                         </div>
 
-                        <button className="opacity-0 group-hover:opacity-100 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                        <button className="opacity-0 group-hover:opacity-100 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
                           <FaArrowRight className="text-sm" />
                         </button>
                       </div>
@@ -282,110 +268,16 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-
-        {/* Benefits */}
-        <div className="relative">
-          {/* Background Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 via-white to-purple-50 rounded-3xl"></div>
-
-          <div className="relative bg-white/60 backdrop-blur-sm p-8 lg:p-12 rounded-3xl shadow-xl border border-gray-100">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-600 text-sm font-medium mb-6">
-                <FaShieldAlt className="mr-2" />
-                Why Choose Us
-              </div>
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                Modern Solutions for
-                <span className="text-green-600"> Government Services</span>
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "Digital First",
-                  description:
-                    "Complete process online with real-time tracking and instant notifications",
-                  icon: FaLaptop,
-                  gradient: "from-blue-500 to-indigo-600",
-                  bgColor: "from-blue-50 to-indigo-50",
-                },
-                {
-                  title: "Lightning Fast",
-                  description:
-                    "Quick turnaround times with priority processing options available",
-                  icon: FaBolt,
-                  gradient: "from-yellow-500 to-orange-600",
-                  bgColor: "from-yellow-50 to-orange-50",
-                },
-                {
-                  title: "Bank-Grade Security",
-                  description:
-                    "Government-verified process with encrypted data and secure payments",
-                  icon: FaLock,
-                  gradient: "from-green-500 to-emerald-600",
-                  bgColor: "from-green-50 to-emerald-50",
-                },
-              ].map((benefit, index) => (
-                <div
-                  key={benefit.title}
-                  className="group text-center p-6 rounded-2xl transition-all duration-300 hover:scale-105"
-                  style={{
-                    background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
-                    animationDelay: `${index * 150}ms`,
-                  }}
-                >
-                  <div
-                    className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${benefit.bgColor} mb-6 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <div
-                      className={`p-3 rounded-xl bg-gradient-to-r ${benefit.gradient} shadow-lg`}
-                    >
-                      <benefit.icon className="text-2xl text-white" />
-                    </div>
-                  </div>
-
-                  <h3 className="font-bold text-gray-900 mb-3 text-xl">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {benefit.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Stats Section */}
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-                {[
-                  { number: "50K+", label: "Documents Processed" },
-                  { number: "98%", label: "Success Rate" },
-                  { number: "4.9/5", label: "User Rating" },
-                  { number: "24/7", label: "Support Available" },
-                ].map((stat, index) => (
-                  <div key={index} className="group">
-                    <div className="text-3xl font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">
-                      {stat.number}
-                    </div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Footer */}
       <footer className="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900">
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="relative max-w-7xl mx-auto px-6 py-12">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className="text-5xl font-bold text-white mb-4">
               Ready to get started?
             </h3>
-            <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-300 mb-8 max-w-2xl mx-auto text-lg">
               Join thousands of satisfied users who have streamlined their
               document requests through our platform.
             </p>
@@ -393,7 +285,7 @@ const HomePage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <Link
                 to="/request"
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 font-semibold rounded-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="bg-gradient-to-r from-blue-600 to-blue-600 text-white px-8 py-3 font-semibold rounded-2xl hover:from-blue-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 Start Your Request
               </Link>

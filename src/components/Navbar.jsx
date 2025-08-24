@@ -31,11 +31,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="p-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-lg logo-glow group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+            <div className="p-2 bg-gradient-to-r from-blue-600 to-blue-600 rounded-xl shadow-lg logo-glow group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
               <FaShieldAlt className="text-white text-lg" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent">
                 Munger Document Store
               </h1>
               <p className="text-xs text-gray-500 -mt-1">Government of Bihar</p>
@@ -50,13 +50,13 @@ const Navbar = () => {
                 to={item.href}
                 className={`nav-item group relative px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 ${
                   isActive(item.href)
-                    ? "text-indigo-600 bg-indigo-50"
-                    : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                    ? "text-blue-600 bg-blue-50"
+                    : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
                 }`}
               >
                 <item.icon
                   className={`text-sm transition-transform group-hover:scale-110 ${
-                    isActive(item.href) ? "text-indigo-600" : "text-gray-400"
+                    isActive(item.href) ? "text-blue-600" : "text-gray-400"
                   }`}
                 />
                 <span>{item.name}</span>
@@ -66,24 +66,9 @@ const Navbar = () => {
 
           {/* Right side actions */}
           <div className="flex items-center gap-3">
-            {/* Notifications */}
-            <button className="hidden sm:flex p-2 text-gray-400 hover:text-indigo-600 hover:bg-gray-50 rounded-xl transition-all duration-300 relative group">
-              <FaBell className="text-lg group-hover:animate-pulse" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full flex items-center justify-center notification-dot">
-                <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-              </span>
-            </button>
-
-            {/* User Profile */}
-            <button className="hidden sm:flex items-center gap-2 p-2 text-gray-600 hover:text-indigo-600 hover:bg-gray-50 rounded-xl transition-all duration-300 group">
-              <FaUserCircle className="text-xl group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-medium">Guest</span>
-            </button>
-
-            {/* CTA Button */}
             <Link
               to="/request"
-              className="group bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
+              className="group bg-gradient-to-r from-blue-600 to-blue-600 text-white px-4 py-2 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2"
             >
               <FaPlus className="text-sm group-hover:rotate-90 transition-transform duration-300" />
               <span className="hidden sm:inline">New Request</span>
@@ -92,7 +77,7 @@ const Navbar = () => {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-gray-600 hover:text-indigo-600 hover:bg-gray-50 rounded-xl transition-all duration-300"
+              className="md:hidden p-2 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-xl transition-all duration-300"
             >
               {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
@@ -110,13 +95,13 @@ const Navbar = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
                     isActive(item.href)
-                      ? "text-indigo-600 bg-indigo-50"
-                      : "text-gray-600 hover:text-indigo-600 hover:bg-gray-50"
+                      ? "text-blue-600 bg-blue-50"
+                      : "text-gray-600 hover:text-blue-600 hover:bg-gray-50"
                   }`}
                 >
                   <item.icon
                     className={`text-sm ${
-                      isActive(item.href) ? "text-indigo-600" : "text-gray-400"
+                      isActive(item.href) ? "text-blue-600" : "text-gray-400"
                     }`}
                   />
                   <span>{item.name}</span>
