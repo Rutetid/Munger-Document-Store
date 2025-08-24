@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AppContext = createContext();
 
@@ -11,43 +11,85 @@ export const useApp = () => {
 };
 
 export const AppProvider = ({ children }) => {
-  const [requests, setRequests] = useState([
-    {
-      id: "REQ-2025-001",
-      fullName: "John Doe",
-      email: "john@example.com",
-      phone: "+91-9876543210",
-      documentType: "Birth Certificate",
-      purpose: "Passport application",
-      urgency: "normal",
-      currentStep: 2,
-      department: "Civil Registration",
-      estimatedTime: "7-10 days",
-      fees: 50,
-      submittedAt: "2025-08-20",
-      expectedCompletion: "2025-08-30",
-    },
-    {
-      id: "REQ-2025-002",
-      fullName: "Jane Smith",
-      email: "jane@example.com",
-      phone: "+91-9876543211",
-      documentType: "Trade License",
-      purpose: "Business registration",
-      urgency: "urgent",
-      currentStep: 4,
-      department: "Commerce Department",
-      estimatedTime: "3-5 days",
-      fees: 200,
-      submittedAt: "2025-08-18",
-      expectedCompletion: "2025-08-25",
-    },
-  ]);
+  // Load requests from localStorage or use default data
+  const getInitialRequests = () => {
+    try {
+      const savedRequests = localStorage.getItem("mungerDocuments");
+      if (savedRequests) {
+        return JSON.parse(savedRequests);
+      }
+    } catch (error) {
+      console.error("Error loading saved requests:", error);
+    }
+
+    // Default requests if nothing in localStorage
+    return [
+      {
+        id: "REQ-2025-001",
+        fullName: "John Doe",
+        email: "john@example.com",
+        phone: "+91-9876543210",
+        documentType: "Birth Certificate",
+        purpose: "Passport application",
+        urgency: "normal",
+        currentStep: 2,
+        department: "Civil Registration",
+        estimatedTime: "7-10 days",
+        fees: 50,
+        submittedAt: "2025-08-20",
+        expectedCompletion: "2025-08-30",
+      },
+      {
+        id: "REQ-2025-002",
+        fullName: "Jane Smith",
+        email: "jane@example.com",
+        phone: "+91-9876543211",
+        documentType: "Trade License",
+        purpose: "Business registration",
+        urgency: "urgent",
+        currentStep: 4,
+        department: "Commerce Department",
+        estimatedTime: "3-5 days",
+        fees: 200,
+        submittedAt: "2025-08-18",
+        expectedCompletion: "2025-08-25",
+      },
+    ];
+  };
+
+  const [requests, setRequests] = useState(getInitialRequests);
+
+  // Save to localStorage whenever requests change
+  useEffect(() => {
+    try {
+      localStorage.setItem("mungerDocuments", JSON.stringify(requests));
+      console.log("Saved requests to localStorage:", requests);
+    } catch (error) {
+      console.error("Error saving requests to localStorage:", error);
+    }
+  }, [requests]);
 
   const generateRequestId = () => {
     const year = new Date().getFullYear();
-    const count = requests.length + 1;
-    return `REQ-${year}-${count.toString().padStart(3, "0")}`;
+
+    // Find the highest existing number for this year
+    const currentYearRequests = requests.filter((req) =>
+      req.id.startsWith(`REQ-${year}-`)
+    );
+
+    let maxNumber = 0;
+    currentYearRequests.forEach((req) => {
+      const match = req.id.match(/REQ-\d{4}-(\d{3})/);
+      if (match) {
+        const num = parseInt(match[1]);
+        if (num > maxNumber) {
+          maxNumber = num;
+        }
+      }
+    });
+
+    const nextNumber = maxNumber + 1;
+    return `REQ-${year}-${nextNumber.toString().padStart(3, "0")}`;
   };
 
   const getDepartmentInfo = (documentType) => {
@@ -127,7 +169,12 @@ export const AppProvider = ({ children }) => {
         .split("T")[0],
     };
 
-    setRequests((prev) => [...prev, newRequest]);
+    console.log("Submitting new request:", newRequest);
+    setRequests((prev) => {
+      const updated = [...prev, newRequest];
+      console.log("Updated requests array:", updated);
+      return updated;
+    });
 
     // Simulate automatic progression to step 2 after submission
     setTimeout(() => {
@@ -138,11 +185,14 @@ export const AppProvider = ({ children }) => {
   };
 
   const updateRequestStatus = (requestId, newStep) => {
-    setRequests((prev) =>
-      prev.map((req) =>
+    console.log(`Updating request ${requestId} to step ${newStep}`);
+    setRequests((prev) => {
+      const updated = prev.map((req) =>
         req.id === requestId ? { ...req, currentStep: newStep } : req
-      )
-    );
+      );
+      console.log("Updated requests after status change:", updated);
+      return updated;
+    });
   };
 
   const getRequestById = (requestId) => {

@@ -8,8 +8,8 @@ const RequestPage = () => {
 
   const handleFormSubmit = (formData) => {
     const newRequest = submitRequest(formData);
-    // Navigate to tracker with the request ID
-    navigate(`/track/${newRequest.id}`);
+    // Navigate to confirmation page first
+    navigate(`/confirmation/${newRequest.id}`);
   };
 
   return (

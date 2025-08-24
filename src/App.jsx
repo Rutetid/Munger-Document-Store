@@ -6,6 +6,7 @@ import RequestPage from "./pages/RequestPage";
 import DashboardPage from "./pages/DashboardPage";
 import TrackingPage from "./pages/TrackingPage";
 import PublicTrackingPage from "./pages/PublicTrackingPage";
+import RequestConfirmationPage from "./pages/RequestConfirmationPage";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
               <Route path="/request" element={<RequestPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/tracking" element={<PublicTrackingPage />} />
+              <Route
+                path="/confirmation/:requestId"
+                element={<RequestConfirmationPage />}
+              />
               <Route path="/track/:requestId" element={<TrackingPage />} />
             </Routes>
           </main>
